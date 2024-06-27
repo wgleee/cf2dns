@@ -8,8 +8,14 @@ on:
     - cron: '0 5 * * *'
 
 env:
+  DNSSERVER: "aliyun"  # aliyun or dnspod
   UPDATE_IPV4: true
   UPDATE_IPV6: true
+  KEY: ${{ secrets.KEY }}
+  DOMAIN_INFO: ${{ secrets.DOMAIN_INFO }}
+  SECRET_ID: ${{ secrets.SECRETID }}
+  SECRET_KEY: ${{ secrets.SECRETKEY }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,17 +30,7 @@ jobs:
         run: if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: 'run cf2dns v4'
         if: env.UPDATE_IPV4 == 'true' && !cancelled()
-        env:
-          KEY: ${{ secrets.KEY }}
-          DOMAINS: ${{ secrets.DOMAINS }}
-          SECRETID: ${{ secrets.SECRETID }}
-          SECRETKEY: ${{ secrets.SECRETKEY }}
-        run: python cf2dns_actions.py A
+        run: python cf2dns.py ${DNSSERVER} -4
       - name: 'run cf2dns v6'
-        if: env.UPDATE_IPV6 == 'true' && !cancelled()
-        env:
-          KEY: ${{ secrets.KEY }}
-          DOMAINS: ${{ secrets.DOMAINSV6 }}
-          SECRETID: ${{ secrets.SECRETID }}
-          SECRETKEY: ${{ secrets.SECRETKEY }}
-        run: python cf2dns_actions.py AAAA
+        if: env.UPDATE_IPV4 == 'true' && !cancelled()
+        run: python cf2dns.py ${DNSSERVER} -6

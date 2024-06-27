@@ -1,6 +1,5 @@
-aliyun-python-sdk-alidns==2.6.19
-aliyun-python-sdk-core==2.13.29
-huaweicloudsdkcore==3.1.5
-huaweicloudsdkdns==3.1.5
-requests==2.28.1
+alibabacloud-alidns20150109==3.5.0
 tencentcloud-sdk-python==3.0.806
+python-dateutil==2.9.0.post0
+#prettytable==3.10.0
+requests==2.28.1
