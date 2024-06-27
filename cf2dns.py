@@ -62,17 +62,17 @@ def change_dns(cloud, domain, sub_domain, record_type, lines, cf_ips, record_num
         if record_id_list:
             for record, ip in zip(record_id_list, random.sample(ip_list, record_num)):
                 if ip.get("ip") in record_ip_list:
-                    logger.info(f"跳过，记录值存在，域名: {sub_domain}.{domain} 记录: {record_type} 值: {ip.get("ip")} 线路: {RECORD_LINE.get(line)} 记录ID: {record.record_id}")
+                    logger.info(f"跳过，记录值存在，域名: {sub_domain}.{domain} 记录: {record_type} 值: {ip.get('ip')} 线路: {RECORD_LINE.get(line)} 记录ID: {record.record_id}")
                     continue
-                logger.info(f"更新记录: {sub_domain}.{domain} 记录: {record_type} 值: {ip.get("ip")} 线路: {RECORD_LINE.get(line)} 记录ID: {record.record_id}")
+                logger.info(f"更新记录: {sub_domain}.{domain} 记录: {record_type} 值: {ip.get('ip')} 线路: {RECORD_LINE.get(line)} 记录ID: {record.record_id}")
                 cloud.change_record(
-                    domain=domain, record_id=record.record_id, sub_domain=sub_domain, value=ip.get("ip"), record_type=record_type, line=RECORD_LINE.get(line)
+                    domain=domain, record_id=record.record_id, sub_domain=sub_domain, value=ip.get('ip'), record_type=record_type, line=RECORD_LINE.get(line)
                 )
         else:
             for ip in random.sample(ip_list, record_num):
-                logger.info(f"创建记录: {sub_domain}.{domain} 记录: {record_type} 值: {ip.get("ip")} 线路: {RECORD_LINE.get(line)}")
+                logger.info(f"创建记录: {sub_domain}.{domain} 记录: {record_type} 值: {ip.get('ip')} 线路: {RECORD_LINE.get(line)}")
                 cloud.create_record(
-                    domain=domain, sub_domain=sub_domain, value=ip.get("ip"), record_type=record_type, line=RECORD_LINE.get(line)
+                    domain=domain, sub_domain=sub_domain, value=ip.get('ip'), record_type=record_type, line=RECORD_LINE.get(line)
                 )
 
 def validate_json(data: str) -> bool:
@@ -102,7 +102,7 @@ def parse_args() -> namedtuple:
         metavar="dnsserver",
         choices=DNS_API.keys(),
         type=str,
-        help=f"选择域名 DNS 服务商，仅支持: {" | ".join(DNS_API.keys())}",
+        help=f"选择域名 DNS 服务商，仅支持: {' | '.join(DNS_API.keys())}",
     )
     parser.add_argument(
         "-4",
@@ -181,7 +181,7 @@ def parse_args() -> namedtuple:
         raise SystemExit()
     if args.domain_file and not validate_file(args.domain_file):
         logger.error(f"文件不存在或 JSON 域名信息格式不正确：{args.domain_file}")
-        raise SystemExit(f"文件不存在或 JSON 域名信息格式不正确：{args.domain_file}")
+        raise SystemExit()
     return args
 
 def main():
